@@ -1,5 +1,7 @@
 class Game
   
+  require 'pry'
+  
   attr_accessor :board, :player_1, :player_2
   
   def initialize(player_1 = Players::Human.new("X"), player_2 = Players::Human.new("O"), board = Board.new)
@@ -20,17 +22,14 @@ class Game
       ]
       
     def current_player
-      @board.turn_count % 2 == 0 ? player_1 : player_2
+      @board.turn_count % 2 == 0 ? @player_1 : @player_2
     end
     
     def won?
-      WIN_COMBINATIONS.detect do |win_combo|
-       if  @board.cells[win_combo[0]] == @board.cells[win_combo[1]] &&
-        @board.cells[win_combo[1]] == @board.cells[win_combo[2]] 
-        [1,4,7]
-       else
-         false
-       end
+      WIN_COMBINATIONS.detect do |combo|
+      @board.cells[combo[0]] == @board.cells[combo[1]] &&
+      @board.cells[combo[1]] == @board.cells[combo[2]] &&
+      @board.taken?(combo[0]+1)
       end
     end
     
@@ -43,9 +42,29 @@ class Game
     end
     
     def winner
-       winning_combo = won?
-      @winner = 
-      @board.cells[winning_combo.first
-      ]
+      if winning_combo = won?
+      @winner = @board.cells[winning_combo.first]
+      end
     end
+    
+    def turn
+        player_move = current_player.move(@board)
+        @board.valid_move?(player_move)
+        if player_move  #add loop... until move is valid or use #position 
+          #.update board
+          
+          def turn
+        player_move = current_player.move(@board)
+        if @board.valid_move?(player_move) #you want to check that the move is valid
+          #if it is, you want to make the move on the board(think about the method that updates the board)
+          #then you want to show the updated board
+          
+        #what if it is not valid?
+          
+          
+        if player_move  #add loop... until move is valid or use #position 
+          #.update board
+    end
+    end
+  end
 end
